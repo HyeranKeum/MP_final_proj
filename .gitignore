@@ -1,0 +1,49 @@
+# === e² studio 자동 생성 빌드 결과 ===
+/Debug/
+/Release/
+/build/
+
+/Debug/*.o
+/Debug/*.d
+/Debug/*.mk
+/Debug/makefile
+
+# === 오브젝트/바이너리 파일 ===
+*.o
+*.elf
+*.map
+*.srec
+*.hex
+*.bin
+*.d
+*.a
+*.out
+
+# === 자동 생성 make 파일 ===
+*.mk
+Makefile
+makefile
+
+# === 설정 파일 중 Git으로 관리하지 않아도 되는 항목 ===
+.settings/
+.metadata/
+*.launch
+*.log
+
+# === CDT/IDE 임시 파일 ===
+.cproject
+.project
+
+# === 사용자 임시 파일 ===
+*.swp
+*.tmp
+*.bak
+*.old
+
+# === OS별 추가 (Windows) ===
+Thumbs.db
+Desktop.ini
+
+# === 기타 ===
+*.user
+*.dep
