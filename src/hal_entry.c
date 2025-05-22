@@ -3,7 +3,7 @@
 #include "bsp/bsp.h"
 #include "dac/dac.h"
 #include "can/can.h"
-
+extern unsigned char sound1[155616];
 void hal_entry(void)
 {
     // CAN_init();
@@ -11,7 +11,7 @@ void hal_entry(void)
 
     while(1)
     {
-        startDACAudio();
+        startDACAudio(sound1, sizeof(sound1));
     }
 
 

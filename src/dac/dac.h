@@ -5,6 +5,6 @@
 #define STANDARD_CAN_FRAME          8
 
 void DAC_init();
-void startDACAudio();
+void startDACAudio(unsigned char* rawdata, size_t length);
 
 #endif
