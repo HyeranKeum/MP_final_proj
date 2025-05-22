@@ -424,6 +424,8 @@
       <configSetting altId="debug0.tdi.p110" configurationId="debug0.tdi"/>
       <configSetting altId="debug0.tdo.p109" configurationId="debug0.tdo"/>
       <configSetting altId="debug0.tms.p108" configurationId="debug0.tms"/>
+      <configSetting altId="gpt3.gtioca.p403" configurationId="gpt3.gtioca"/>
+      <configSetting altId="gpt3.mode.gtiocaorgtiocb.free" configurationId="gpt3.mode"/>
       <configSetting altId="irq0.irq11.p006" configurationId="irq0.irq11"/>
       <configSetting altId="irq0.irq12.p008" configurationId="irq0.irq12"/>
       <configSetting altId="irq0.irq13.p009" configurationId="irq0.irq13"/>
@@ -447,10 +449,16 @@
       <configSetting altId="p110.gpio_mode.gpio_mode_peripheral" configurationId="p110.gpio_mode"/>
       <configSetting altId="p300.debug0.tck" configurationId="p300"/>
       <configSetting altId="p300.gpio_mode.gpio_mode_peripheral" configurationId="p300.gpio_mode"/>
+      <configSetting altId="p403.gpt3.gtioca" configurationId="p403"/>
+      <configSetting altId="p403.gpio_mode.gpio_mode_peripheral" configurationId="p403.gpio_mode"/>
       <configSetting altId="p511.can1.crx" configurationId="p511"/>
       <configSetting altId="p511.gpio_mode.gpio_mode_peripheral" configurationId="p511.gpio_mode"/>
       <configSetting altId="p512.can1.ctx" configurationId="p512"/>
       <configSetting altId="p512.gpio_mode.gpio_mode_peripheral" configurationId="p512.gpio_mode"/>
+      <configSetting altId="p900.output.low" configurationId="p900"/>
+      <configSetting altId="p900.gpio_mode.gpio_mode_out.low" configurationId="p900.gpio_mode"/>
+      <configSetting altId="p901.output.low" configurationId="p901"/>
+      <configSetting altId="p901.gpio_mode.gpio_mode_out.low" configurationId="p901.gpio_mode"/>
       <configSetting altId="pa08.output.high" configurationId="pa08"/>
       <configSetting altId="pa08.gpio_mode.gpio_mode_out.high" configurationId="pa08.gpio_mode"/>
       <configSetting altId="pa09.output.high" configurationId="pa09"/>

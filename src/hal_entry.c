@@ -11,6 +11,7 @@ void hal_entry(void)
     // CAN_init();
     DAC_init();
     IRQ_init();
+    DC_initial();
 
     while(1)
     {
