@@ -12,6 +12,7 @@ void hal_entry(void)
     DAC_init();
     IRQ_init();
     DC_initial();
+    servo_initial();
 
     while(1)
     {
