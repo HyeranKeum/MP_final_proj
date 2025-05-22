@@ -401,6 +401,14 @@
       <configSetting altId="p511.gpio_mode.gpio_mode_peripheral" configurationId="p511.gpio_mode"/>
       <configSetting altId="p512.can1.ctx" configurationId="p512"/>
       <configSetting altId="p512.gpio_mode.gpio_mode_peripheral" configurationId="p512.gpio_mode"/>
+      <configSetting altId="pa08.output.high" configurationId="pa08"/>
+      <configSetting altId="pa08.gpio_mode.gpio_mode_out.high" configurationId="pa08.gpio_mode"/>
+      <configSetting altId="pa09.output.high" configurationId="pa09"/>
+      <configSetting altId="pa09.gpio_mode.gpio_mode_out.high" configurationId="pa09.gpio_mode"/>
+      <configSetting altId="pa10.output.high" configurationId="pa10"/>
+      <configSetting altId="pa10.gpio_mode.gpio_mode_out.high" configurationId="pa10.gpio_mode"/>
+      <configSetting altId="pb00.output.high" configurationId="pb00"/>
+      <configSetting altId="pb00.gpio_mode.gpio_mode_out.high" configurationId="pb00.gpio_mode"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>
