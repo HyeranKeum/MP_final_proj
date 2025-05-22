@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "bsp.h": "c",
+        "hal_data.h": "c",
+        "can.h": "c"
+    }
+}
