@@ -170,6 +170,10 @@
       <description>12-bit D/A Converter</description>
       <originalPack>Renesas.RA.3.5.0.pack</originalPack>
     </component>
+    <component apiversion="" class="HAL Drivers" condition="" group="all" subgroup="r_icu" variant="" vendor="Renesas" version="3.5.0">
+      <description>External Interrupt</description>
+      <originalPack>Renesas.RA.3.5.0.pack</originalPack>
+    </component>
   </raComponentSelection>
   <raElcConfiguration/>
   <raIcuConfiguration/>
@@ -358,10 +362,40 @@
       <property id="module.driver.dac.internal_output" value="enum.mcu.dac.internal_output.disabled"/>
       <property id="module.driver.dac.elc_trigger" value="_disabled"/>
     </module>
+    <module id="module.driver.external_irq_on_icu.1020544032">
+      <property id="module.driver.external_irq.name" value="switch1"/>
+      <property id="module.driver.external_irq.channel" value="11"/>
+      <property id="module.driver.external_irq.trigger" value="module.driver.external_irq.trigger.trig_falling"/>
+      <property id="module.driver.external_irq.filter_enable" value="module.driver.external_irq.filter_enable.false"/>
+      <property id="module.driver.external_irq.pclk_div" value="module.driver.external_irq.pclk_div.pclk_div_by_64"/>
+      <property id="module.driver.external_irq.p_callback" value="R_IRQ_Interrupt"/>
+      <property id="module.driver.external_irq.ipl" value="board.icu.common.irq.priority12"/>
+    </module>
+    <module id="module.driver.external_irq_on_icu.1996668442">
+      <property id="module.driver.external_irq.name" value="switch2"/>
+      <property id="module.driver.external_irq.channel" value="12"/>
+      <property id="module.driver.external_irq.trigger" value="module.driver.external_irq.trigger.trig_falling"/>
+      <property id="module.driver.external_irq.filter_enable" value="module.driver.external_irq.filter_enable.false"/>
+      <property id="module.driver.external_irq.pclk_div" value="module.driver.external_irq.pclk_div.pclk_div_by_64"/>
+      <property id="module.driver.external_irq.p_callback" value="R_IRQ_Interrupt"/>
+      <property id="module.driver.external_irq.ipl" value="board.icu.common.irq.priority12"/>
+    </module>
+    <module id="module.driver.external_irq_on_icu.502509057">
+      <property id="module.driver.external_irq.name" value="switch3"/>
+      <property id="module.driver.external_irq.channel" value="13"/>
+      <property id="module.driver.external_irq.trigger" value="module.driver.external_irq.trigger.trig_falling"/>
+      <property id="module.driver.external_irq.filter_enable" value="module.driver.external_irq.filter_enable.false"/>
+      <property id="module.driver.external_irq.pclk_div" value="module.driver.external_irq.pclk_div.pclk_div_by_64"/>
+      <property id="module.driver.external_irq.p_callback" value="R_IRQ_Interrupt"/>
+      <property id="module.driver.external_irq.ipl" value="board.icu.common.irq.priority12"/>
+    </module>
     <context id="_hal.0">
       <stack module="module.driver.ioport_on_ioport.0"/>
       <stack module="module.driver.can_on_can.1701933509"/>
       <stack module="module.driver.dac_on_dac.1249204037"/>
+      <stack module="module.driver.external_irq_on_icu.1020544032"/>
+      <stack module="module.driver.external_irq_on_icu.1996668442"/>
+      <stack module="module.driver.external_irq_on_icu.502509057"/>
     </context>
     <config id="config.driver.ioport">
       <property id="config.driver.ioport.checking" value="config.driver.ioport.checking.system"/>
@@ -369,6 +403,9 @@
     <config id="config.driver.can">
       <property id="config.driver.can.param_checking_enable" value="config.driver.can.param_checking_enable.bsp"/>
       <property id="config.driver.can.fifo_support" value="config.driver.can.fifo_support.disabled"/>
+    </config>
+    <config id="config.driver.icu">
+      <property id="config.driver.icu.param_checking_enable" value="config.driver.icu.param_checking_enable.bsp"/>
     </config>
     <config id="config.driver.dac">
       <property id="config.driver.dac.param_checking_enable" value="config.driver.dac.param_checking_enable.bsp"/>
@@ -387,6 +424,19 @@
       <configSetting altId="debug0.tdi.p110" configurationId="debug0.tdi"/>
       <configSetting altId="debug0.tdo.p109" configurationId="debug0.tdo"/>
       <configSetting altId="debug0.tms.p108" configurationId="debug0.tms"/>
+      <configSetting altId="irq0.irq11.p006" configurationId="irq0.irq11"/>
+      <configSetting altId="irq0.irq12.p008" configurationId="irq0.irq12"/>
+      <configSetting altId="irq0.irq13.p009" configurationId="irq0.irq13"/>
+      <configSetting altId="irq0.mode.enabled" configurationId="irq0.mode"/>
+      <configSetting altId="p006.irq0.irq11" configurationId="p006"/>
+      <configSetting altId="p006.gpio_irq.gpio_irq_enabled" configurationId="p006.gpio_irq"/>
+      <configSetting altId="p006.gpio_mode.gpio_mode_irq" configurationId="p006.gpio_mode"/>
+      <configSetting altId="p008.irq0.irq12" configurationId="p008"/>
+      <configSetting altId="p008.gpio_irq.gpio_irq_enabled" configurationId="p008.gpio_irq"/>
+      <configSetting altId="p008.gpio_mode.gpio_mode_irq" configurationId="p008.gpio_mode"/>
+      <configSetting altId="p009.irq0.irq13" configurationId="p009"/>
+      <configSetting altId="p009.gpio_irq.gpio_irq_enabled" configurationId="p009.gpio_irq"/>
+      <configSetting altId="p009.gpio_mode.gpio_mode_irq" configurationId="p009.gpio_mode"/>
       <configSetting altId="p014.dac0.da" configurationId="p014"/>
       <configSetting altId="p014.gpio_mode.gpio_mode_an" configurationId="p014.gpio_mode"/>
       <configSetting altId="p108.debug0.tms" configurationId="p108"/>
@@ -407,8 +457,6 @@
       <configSetting altId="pa09.gpio_mode.gpio_mode_out.high" configurationId="pa09.gpio_mode"/>
       <configSetting altId="pa10.output.high" configurationId="pa10"/>
       <configSetting altId="pa10.gpio_mode.gpio_mode_out.high" configurationId="pa10.gpio_mode"/>
-      <configSetting altId="pb00.output.high" configurationId="pb00"/>
-      <configSetting altId="pb00.gpio_mode.gpio_mode_out.high" configurationId="pb00.gpio_mode"/>
     </pincfg>
   </raPinConfiguration>
 </raConfiguration>
