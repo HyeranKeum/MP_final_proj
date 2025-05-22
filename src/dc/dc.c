@@ -1,4 +1,5 @@
 #include "dc.h"
+#include "../global/global.h"
 #include "hal_data.h"
 
 //DC
@@ -6,8 +7,6 @@ bsp_io_port_pin_t L293_CH0_Enable = BSP_IO_PORT_09_PIN_00;
 bsp_io_port_pin_t L293_CH0_Direction = BSP_IO_PORT_09_PIN_01;
 volatile uint8_t L293_CH0_Enable_Level;
 volatile uint8_t L293_CH0_Direction_Level;
-
-uint32_t Timer_Period = 0x249F00; // 20[ms] Duty Cycle (50[Hz])
 
 void calc_dutyRate();
 void Rotate_DC();
