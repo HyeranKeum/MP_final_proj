@@ -22,7 +22,7 @@ const State_Config config_arrive = {STATE_ARRIVE, 10, "ARRITO "};
 const State_Config config_open = {STATE_OPEN, 20, "DOR OPEN"};
 const State_Config config_close = {STATE_CLOSE, 10, "DORCLOSE"};
 
-const State_Config config_list[6] = {
+const State_Config config_list[5] = {
     config_idle,
     config_move,
     config_arrive,
