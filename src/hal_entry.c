@@ -33,6 +33,7 @@ void hal_entry(void)
         // ** interrupt -> event **
         if (f.switch_int) {
             f.switch_int = 0;
+            goal_floor = input_floor; // ** 디버그용 **
             event = EVENT_FLOOR_BUTTON;
         }
         else if (f.agt_int) { // 100ms 주기

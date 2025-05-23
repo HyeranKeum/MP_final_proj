@@ -8,13 +8,13 @@ extern unsigned char sound1[155616];
 
 uint32_t Timer_Period = 0x249F00; // 20[ms] Duty Cycle (50[Hz])
 
-volatile Floor current_floor = 1; // 현재 위치
+Floor current_floor; // 현재 위치
 volatile Floor input_floor; // uart, swtich 로 입력한 층 기록
-volatile Floor goal_floor; // 목적지
+Floor goal_floor; // 목적지
 
 uint8_t requested_floors[4] = {0};
 
-volatile State current_state = 0; // IDLE
+volatile State current_state; // IDLE
 
 const State_Config config_idle = {STATE_IDLE, 0, "-"};
 const State_Config config_move = {STATE_MOVE, 30, "MOVETO "};
@@ -49,11 +49,23 @@ void system_on() {
 void handle_event() {
     switch (current_state)
     {
-    case STATE_IDLE:
-        if (event) { // 층수 버튼
-            current_state = STATE_MOVE;
+    case STATE_IDLE:{
+        switch (event)
+        {
+            case EVENT_FLOOR_BUTTON:
+                if (current_floor == goal_floor) {
+                    current_state = STATE_ARRIVE;
+                } else {
+                    current_state = STATE_MOVE;
+                }
+                break;
+            case EVENT_OPEN_BUTTON:
+                current_state = STATE_OPEN;
+                break;
         }
         break;
+    }
+
     case STATE_MOVE:
         if (event) { // AGT timeout
             current_state = STATE_ARRIVE;
