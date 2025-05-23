@@ -18,22 +18,25 @@ void R_IRQ_Interrupt(external_irq_callback_args_t *p_args) {
     uint32_t switch_channel;
     switch_channel = p_args -> channel;
 
-    f.switch_int = 1;
     switch (switch_channel) {
         case 11: {
             input_floor = 1;
             break;
         }
-        
         case 12: {
             input_floor = 2;
             break;
         }
-
         case 13: {
             input_floor = 3;
             break;
         }
 
     }
+    
+    if (requested_floors[input_floor]) {
+        return;
+    }
+    f.switch_int = 1;
+    requested_floors[input_floor] = 1;
 }

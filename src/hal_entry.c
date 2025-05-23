@@ -57,8 +57,13 @@ void hal_entry(void)
                 uart_idx = 0;
 
                 if (uart_data_arr[3] == 4 || uart_data_arr[3] == 8 || uart_data_arr[3] == 12) {
-                    event = EVENT_FLOOR_BUTTON;
                     input_floor = uart_data_arr[3] / 4;  // 4 → 1, 8 → 2, 12 → 3
+
+                    if (!requested_floors[input_floor]) {
+                        event = EVENT_FLOOR_BUTTON;
+                        requested_floors[input_floor] = 1;
+                    }
+
                 } else if (uart_data_arr[3] == 64) {
                     event = EVENT_OPEN_BUTTON;
                 } else if (uart_data_arr[3] == 32) {
