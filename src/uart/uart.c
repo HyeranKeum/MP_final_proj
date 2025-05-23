@@ -13,6 +13,8 @@ void user_uart_callback(uart_callback_args_t *p_args)
     {
         uart_data = (uint8_t)p_args->data;
         f.uart_int = 1;
+        // uart_data_arr[uart_idx] = uart_data;
+        // uart_idx += 1;
     }
 }
 

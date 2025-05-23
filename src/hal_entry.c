@@ -5,8 +5,11 @@
 #include "dac/dac.h"
 #include "can/can.h"
 #include "irq/irq.h"
+#include "dc/dc.h"
+#include "servo/servo.h"
 #include "uart/uart.h"
 #include "fnd/fnd.h"
+#include "agt/agt.h"
 
 extern unsigned char sound1[155616];
 void hal_entry(void)
@@ -18,24 +21,36 @@ void hal_entry(void)
     servo_initial();
     R_SCI_UART_Open(&g_uart0_ctrl, &g_uart0_cfg);
     FND_initial();
+    AGT_init();
+
+    system_on();
 
     while(1)
     {
         // startDACAudio(sound1, sizeof(sound1));
         // fnd_print_state();
 
-        // interrupt -> event
+        // ** interrupt -> event **
         if (f.switch_int) {
             f.switch_int = 0;
             event = EVENT_FLOOR_BUTTON;
         }
         else if (f.agt_int) { // 100ms 주기
+            // f.agt_int+=1;
             f.agt_int = 0;
+
             // 카운트 논리
+            agt_counter += 1;
+
+            if (agt_counter > config_list[current_state].timeout_target){
+                agt_counter = 0;
+                event = EVENT_TIMEOUT;
+            }
+
         }
         else if (f.uart_int) {
             f.uart_int = 0;
-            // event 설정 로직        
+            // event 설정 로직
             uart_data_arr[uart_idx] = uart_data;
             uart_idx += 1;
             if (uart_idx == 5) { // 수신 완료 시
@@ -56,8 +71,10 @@ void hal_entry(void)
                     break;
                 case 64:
                     event = EVENT_OPEN_BUTTON;
+                    break;
                 case 32:
-                    event = EVENT_CLOSE_BUTTON;                    
+                    event = EVENT_CLOSE_BUTTON;
+                    break;                
                 } 
             }
         }
