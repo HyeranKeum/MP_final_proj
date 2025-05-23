@@ -5,4 +5,43 @@
 
 extern uint32_t Timer_Period;
 
+typedef enum {
+    FIRST = 1,
+    SECOND = 2,
+    THIRD = 3,
+} Floor;
+
+extern volatile Floor current_floor; // 현재 위치
+extern volatile Floor input_floor; // uart, swtich 로 입력한 층 기록
+extern volatile Floor goal_floor; // 목적지
+
+extern uint8_t requested_floors[4];
+
+typedef enum {
+    STATE_IDLE = 0,
+    STATE_MOVE = 1,
+    STATE_ARRIVE = 2,
+    STATE_OPEN = 3,
+    STATE_CLOSE = 4
+} State;
+
+extern volatile State current_state;
+
+typedef enum {
+    EVENT_NO_SIGNAL = 0,
+    EVENT_FLOOR_BUTTON = 1,
+    EVENT_OPEN_BUTTON,
+    EVENT_CLOSE_BUTTON,
+    EVENT_TIMEOUT
+} Event;
+
+typedef enum {
+    UP,
+    DOWN
+} Direction;
+
+extern volatile Direction current_direction;
+
+
+
 #endif 
