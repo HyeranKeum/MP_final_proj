@@ -11,9 +11,9 @@ typedef enum {
     THIRD = 3,
 } Floor;
 
-extern volatile Floor current_floor; // 현재 위치
+extern Floor current_floor; // 현재 위치
 extern volatile Floor input_floor; // uart, swtich 로 입력한 층 기록
-extern volatile Floor goal_floor; // 목적지
+extern Floor goal_floor; // 목적지
 
 extern uint8_t requested_floors[4];
 

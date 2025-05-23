@@ -38,12 +38,22 @@ volatile Interrupt_Flags f = {0};
 
 uint8_t agt_counter = 0;
 
+void check_arrival();
+
 void system_on() {
     current_floor = 1; // 현재 위치
 
     current_state = 0; // IDLE
     event = 0; // NO SIGNAL
     current_direction = UP;
+}
+
+void check_arrival() {
+    if (current_floor == goal_floor) {
+        current_state = STATE_ARRIVE;
+    } else {
+        current_state = STATE_MOVE;
+    }
 }
 
 void handle_event() {
@@ -53,11 +63,7 @@ void handle_event() {
         switch (event)
         {
             case EVENT_FLOOR_BUTTON:
-                if (current_floor == goal_floor) {
-                    current_state = STATE_ARRIVE;
-                } else {
-                    current_state = STATE_MOVE;
-                }
+                check_arrival();
                 break;
             case EVENT_OPEN_BUTTON:
                 current_state = STATE_OPEN;
@@ -67,8 +73,18 @@ void handle_event() {
     }
 
     case STATE_MOVE:
-        if (event) { // AGT timeout
-            current_state = STATE_ARRIVE;
+        switch (event) {
+            case EVENT_TIMEOUT:{
+                // current_floor 갱신
+                if (current_direction == UP) {
+                    current_floor += 1;
+                } else {
+                    current_floor -= 1;
+                }
+
+                check_arrival();
+                break;
+            }
         }
         break;    
     case STATE_ARRIVE:
@@ -103,6 +119,8 @@ void execute_action() {
 
         break;    
     case STATE_ARRIVE:
+        requested_floors[current_floor] = 0;
+
         L293_CH0_Enable_Level = BSP_IO_LEVEL_LOW;
         R_IOPORT_PinWrite(&g_ioport_ctrl, L293_CH0_Enable, L293_CH0_Enable_Level);
 

@@ -62,6 +62,7 @@ void hal_entry(void)
 
                     if (!requested_floors[input_floor]) {
                         event = EVENT_FLOOR_BUTTON;
+                        goal_floor = input_floor; // ** 디버그용 **
                         requested_floors[input_floor] = 1;
                     }
 
