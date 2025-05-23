@@ -7,7 +7,9 @@
 #define CARRIAGE_RETURN      0x0D
 #define LINE_FEED            0x0A
 
-extern char tail[2];
+extern volatile uint8_t uart_idx;
+extern volatile uint8_t uart_data;
+extern uint8_t uart_data_arr[5];
 
 void user_uart_callback(uart_callback_args_t *p_args);
 

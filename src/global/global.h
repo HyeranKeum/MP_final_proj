@@ -35,13 +35,25 @@ typedef enum {
     EVENT_TIMEOUT
 } Event;
 
+extern volatile Event event;
+
 typedef enum {
-    UP,
+    UP = 0,
     DOWN
 } Direction;
 
 extern volatile Direction current_direction;
 
+typedef struct { // 비트필드 인터럽트 플래그
+    unsigned int switch_int : 1;
+    unsigned int agt_int : 1;
+    unsigned int uart_int : 1;
+} Interrupt_Flags;
 
+extern volatile Interrupt_Flags f;
+
+void system_on();
+void handle_event();
+void execute_action();
 
 #endif 
