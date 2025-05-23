@@ -8,8 +8,6 @@ bsp_io_port_pin_t L293_CH0_Direction = BSP_IO_PORT_09_PIN_01;
 volatile uint8_t L293_CH0_Enable_Level;
 volatile uint8_t L293_CH0_Direction_Level;
 
-void calc_dutyRate();
-void Rotate_DC();
 
 void DC_initial(){
     R_MSTP->MSTPCRD_b.MSTPD5 = 0U; // GPT32EH3 Module Stop State Cancel
@@ -29,7 +27,7 @@ void DC_initial(){
     L293_CH0_Direction_Level = BSP_IO_LEVEL_HIGH; // 시계방향
     R_IOPORT_PinWrite(&g_ioport_ctrl, L293_CH0_Direction, L293_CH0_Direction_Level);
 
-    R_GPT3->GTCCR[0] = Timer_Period; // GTCCR Initial Setting duty = 100%
+    R_GPT3->GTCCR[0] = Timer_Period / 2; // GTCCR Initial Setting duty = 100%
 
     R_GPT3->GTCR_b.CST = 1U;
 
