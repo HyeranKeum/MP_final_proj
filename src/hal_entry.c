@@ -4,6 +4,8 @@
 #include "dac/dac.h"
 #include "can/can.h"
 #include "irq/irq.h"
+#include "uart/uart.h"
+#include "fnd/fnd.h"
 
 extern unsigned char sound1[155616];
 void hal_entry(void)
@@ -13,10 +15,13 @@ void hal_entry(void)
     IRQ_init();
     DC_initial();
     servo_initial();
+    R_SCI_UART_Open(&g_uart0_ctrl, &g_uart0_cfg);
+    FND_initial();
 
     while(1)
     {
-        startDACAudio(sound1, sizeof(sound1));
+        // startDACAudio(sound1, sizeof(sound1));
+        fnd_print_state();
     }
 
 
