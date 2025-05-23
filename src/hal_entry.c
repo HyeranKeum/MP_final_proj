@@ -11,7 +11,7 @@
 #include "fnd/fnd.h"
 #include "agt/agt.h"
 
-extern unsigned char sound1[155616];
+
 void hal_entry(void)
 {
     // CAN_init();

@@ -1,5 +1,10 @@
 #include "hal_data.h"
 #include "global.h"
+#include "../dc/dc.h"
+#include "../servo/servo.h"
+#include "../dac/dac.h"
+
+extern unsigned char sound1[155616];
 
 uint32_t Timer_Period = 0x249F00; // 20[ms] Duty Cycle (50[Hz])
 
@@ -78,8 +83,27 @@ void execute_action() {
     switch (current_state)
     {
     case STATE_MOVE:
+        L293_CH0_Enable_Level = BSP_IO_LEVEL_HIGH;
+        R_IOPORT_PinWrite(&g_ioport_ctrl, L293_CH0_Enable, L293_CH0_Enable_Level);
+
+        L293_CH0_Direction_Level = current_direction; // UP = 1 / DOWN = 0
+        R_IOPORT_PinWrite(&g_ioport_ctrl, L293_CH0_Direction, L293_CH0_Direction_Level);
+
+        break;    
+    case STATE_ARRIVE:
+        L293_CH0_Enable_Level = BSP_IO_LEVEL_LOW;
+        R_IOPORT_PinWrite(&g_ioport_ctrl, L293_CH0_Enable, L293_CH0_Enable_Level);
+
+        startDACAudio(sound1, sizeof(sound1));
         break;
-    
+    case STATE_OPEN:
+        degree = 180;
+        Rotate_Servo();
+        break;
+    case STATE_CLOSE:
+        degree = 0;
+        Rotate_Servo();
+        break;    
     default:
         break;
     }

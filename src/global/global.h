@@ -54,8 +54,8 @@ typedef enum {
 extern volatile Event event;
 
 typedef enum {
-    UP = 0,
-    DOWN
+    DOWN = 0,
+    UP
 } Direction;
 
 extern volatile Direction current_direction;
