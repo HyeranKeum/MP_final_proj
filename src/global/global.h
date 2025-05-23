@@ -27,6 +27,22 @@ typedef enum {
 
 extern volatile State current_state;
 
+typedef struct
+{
+   State state;
+   uint8_t timeout_target;
+   char can_message[8];
+
+} State_Config;
+
+extern const State_Config config_idle;
+extern const State_Config config_move;
+extern const State_Config config_arrive;
+extern const State_Config config_open;
+extern const State_Config config_close;
+
+extern const State_Config config_list[5];
+
 typedef enum {
     EVENT_NO_SIGNAL = 0,
     EVENT_FLOOR_BUTTON = 1,
@@ -35,13 +51,27 @@ typedef enum {
     EVENT_TIMEOUT
 } Event;
 
+extern volatile Event event;
+
 typedef enum {
-    UP,
-    DOWN
+    DOWN = 0,
+    UP
 } Direction;
 
 extern volatile Direction current_direction;
 
+typedef struct { // 비트필드 인터럽트 플래그
+    unsigned int switch_int : 1;
+    unsigned int uart_int : 1;
+    unsigned int agt_int : 1;
+} Interrupt_Flags;
 
+extern volatile Interrupt_Flags f;
+
+extern uint8_t agt_counter;
+
+void system_on();
+void handle_event();
+void execute_action();
 
 #endif 
