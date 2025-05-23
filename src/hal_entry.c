@@ -55,27 +55,16 @@ void hal_entry(void)
             uart_idx += 1;
             if (uart_idx == 5) { // 수신 완료 시
                 uart_idx = 0;
-                switch (uart_data_arr[3])
-                {
-                case 4:
+
+                if (uart_data_arr[3] == 4 || uart_data_arr[3] == 8 || uart_data_arr[3] == 12) {
                     event = EVENT_FLOOR_BUTTON;
-                    input_floor = 1;
-                    break;
-                case 8:
-                    event = EVENT_FLOOR_BUTTON;
-                    input_floor = 2;
-                    break;
-                case 12:
-                    event = EVENT_FLOOR_BUTTON;
-                    input_floor = 3;
-                    break;
-                case 64:
+                    input_floor = uart_data_arr[3] / 4;  // 4 → 1, 8 → 2, 12 → 3
+                } else if (uart_data_arr[3] == 64) {
                     event = EVENT_OPEN_BUTTON;
-                    break;
-                case 32:
+                } else if (uart_data_arr[3] == 32) {
                     event = EVENT_CLOSE_BUTTON;
-                    break;                
-                } 
+                }
+
             }
         }
 
