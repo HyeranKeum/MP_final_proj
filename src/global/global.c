@@ -98,6 +98,9 @@ void handle_event() {
     case STATE_ARRIVE:
         switch (event)
         {
+            case EVENT_OPEN_BUTTON:
+                current_state = STATE_OPEN;
+                break;
             case EVENT_TIMEOUT:
                 current_state = STATE_OPEN;
                 break;
@@ -106,6 +109,9 @@ void handle_event() {
     case STATE_OPEN:
         switch (event)
         {
+            case EVENT_OPEN_BUTTON:
+                current_state = STATE_OPEN;
+                break;
             case EVENT_CLOSE_BUTTON:
                 current_state = STATE_CLOSE;
                 break;
@@ -144,6 +150,8 @@ void execute_action() {
         startDACAudio(sound1, sizeof(sound1));
         break;
     case STATE_OPEN:
+        agt_counter = 0;
+
         degree = 180;
         Rotate_Servo();
         break;
