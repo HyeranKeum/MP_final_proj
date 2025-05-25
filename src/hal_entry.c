@@ -78,8 +78,16 @@ void hal_entry(void)
 
         if (event == EVENT_FLOOR_BUTTON){
             // 엘리베이터 작동 중 층 스위치 눌렀을 때 목표 목적지(goal_floor) refresh
-            if ((current_state == STATE_IDLE)||(current_state == STATE_MOVE&&is_closer_in_direction())) {
+            if ((current_state == STATE_MOVE&&is_closer_in_direction())) {
                 goal_floor = input_floor;
+            }
+            else if (current_state == STATE_IDLE) {
+                goal_floor = input_floor;
+                if (current_floor < goal_floor) {
+                    current_direction = UP;
+                } else {
+                    current_direction = DOWN;
+                }
             }
         }
 
