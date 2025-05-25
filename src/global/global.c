@@ -56,6 +56,14 @@ void check_arrival() {
     }
 }
 
+bool is_closer_in_direction() {
+    if (current_direction == UP)
+        return current_floor < input_floor && input_floor < goal_floor;
+    else
+        return goal_floor < input_floor && input_floor < current_floor;
+}
+
+
 void handle_event() {
     switch (current_state)
     {

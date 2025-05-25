@@ -33,7 +33,10 @@ void hal_entry(void)
         // ** interrupt -> event **
         if (f.switch_int) {
             f.switch_int = 0;
-            goal_floor = input_floor; // ** 디버그용 **
+            // 엘리베이터 작동 중 층 스위치 눌렀을 때 목표 목적지 refresh
+            if ((current_state == STATE_IDLE)||(current_state == STATE_MOVE&&is_closer_in_direction())) {
+                goal_floor = input_floor;
+            }
             event = EVENT_FLOOR_BUTTON;
         }
         else if (f.agt_int) { // 100ms 주기
