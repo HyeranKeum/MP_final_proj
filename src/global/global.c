@@ -38,6 +38,8 @@ volatile Interrupt_Flags f = {0};
 
 uint8_t agt_counter = 0;
 
+uint8_t i = 0;
+
 void check_arrival();
 
 void system_on() {
@@ -54,6 +56,29 @@ void check_arrival() {
     } else {
         current_state = STATE_MOVE;
     }
+}
+
+void refresh_goal_floor_state() {
+
+    for (i = current_floor; 0<i && i <4; i += 2*current_direction - 1) {
+        if (requested_floors[i]) {
+            goal_floor = i;
+            current_state = STATE_MOVE;
+            return;
+        }
+    }
+
+    for (i = current_floor; 0<i && i <4; i += (-1)*2*current_direction + 1) {
+        if (requested_floors[i]) {
+            goal_floor = i;
+            current_direction ^= 0x01;
+            current_state = STATE_MOVE;
+            return;
+        }
+    }
+
+    current_state = STATE_IDLE;
+
 }
 
 bool is_closer_in_direction() {
@@ -121,8 +146,15 @@ void handle_event() {
         }
         break;
     case STATE_CLOSE:
-        if (event) { // AGT timeout
-            current_state = STATE_IDLE;
+        switch (event)
+        {
+            case EVENT_OPEN_BUTTON:
+                current_state = STATE_OPEN;
+                break;
+            case EVENT_TIMEOUT:
+                // 조건 따지기 
+                refresh_goal_floor_state();
+                break;
         }
         break;    
     default:
