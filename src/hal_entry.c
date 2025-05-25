@@ -33,7 +33,10 @@ void hal_entry(void)
         // ** interrupt -> event **
         if (f.switch_int) {
             f.switch_int = 0;
-            event = EVENT_FLOOR_BUTTON;
+            if (!requested_floors[input_floor]) {
+                event = EVENT_FLOOR_BUTTON;
+                requested_floors[input_floor] = 1;
+            }
         }
         else if (f.agt_int) { // 100ms 주기
             // f.agt_int+=1;
