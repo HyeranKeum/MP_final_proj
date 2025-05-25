@@ -15,7 +15,7 @@ extern Floor current_floor; // 현재 위치
 extern volatile Floor input_floor; // uart, swtich 로 입력한 층 기록
 extern Floor goal_floor; // 목적지
 
-extern uint8_t requested_floors[4];
+extern uint8_t volatile requested_floors[4];
 
 typedef enum {
     STATE_IDLE = 0,
@@ -71,6 +71,7 @@ extern volatile Interrupt_Flags f;
 extern uint8_t agt_counter;
 
 void system_on();
+bool is_closer_in_direction();
 void handle_event();
 void execute_action();
 
