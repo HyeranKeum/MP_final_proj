@@ -90,16 +90,19 @@ void handle_event() {
                     current_floor -= 1;
                 }
 
-                check_arrival();
+                check_arrival(); // move, arrive 결정
                 break;
             }
         }
         break;    
     case STATE_ARRIVE:
-        if (event) { // AGT timeout
-            current_state = STATE_OPEN;
+        switch (event)
+        {
+            case EVENT_TIMEOUT:
+                current_state = STATE_OPEN;
+                break;
         }
-        break;    
+        break;
     case STATE_OPEN:
         if (event) { // AGT timeout
             current_state = STATE_CLOSE;
