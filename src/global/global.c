@@ -104,8 +104,14 @@ void handle_event() {
         }
         break;
     case STATE_OPEN:
-        if (event) { // AGT timeout
-            current_state = STATE_CLOSE;
+        switch (event)
+        {
+            case EVENT_CLOSE_BUTTON:
+                current_state = STATE_CLOSE;
+                break;
+            case EVENT_TIMEOUT:
+                current_state = STATE_CLOSE;
+                break;
         }
         break;
     case STATE_CLOSE:
