@@ -74,5 +74,6 @@ void system_on();
 bool is_closer_in_direction();
 void handle_event();
 void execute_action();
+void led_output();
 
 #endif 

@@ -44,7 +44,6 @@ uint8_t state_changed = 0;
 
 void check_arrival();
 void refresh_goal_floor_state();
-void led_output();
 
 void system_on() {
     current_floor = 1; // 현재 위치
@@ -184,6 +183,7 @@ void handle_event() {
                 state_changed = 0;
                 break;   
             case EVENT_TIMEOUT:
+                requested_floors[current_floor] = 0;
                 refresh_goal_floor_state();
                 break;
         }
@@ -197,11 +197,11 @@ void execute_action() {
     if (!state_changed) {
         return;
     }
-    
+
     switch (current_state)
     {
     case STATE_IDLE:
-        led_output();
+        // led_output();
         break;
     case STATE_MOVE:
         L293_CH0_Enable_Level = BSP_IO_LEVEL_HIGH;
@@ -212,8 +212,6 @@ void execute_action() {
 
         break;
     case STATE_ARRIVE:
-        requested_floors[current_floor] = 0;
-
         L293_CH0_Enable_Level = BSP_IO_LEVEL_LOW;
         R_IOPORT_PinWrite(&g_ioport_ctrl, L293_CH0_Enable, L293_CH0_Enable_Level);
 

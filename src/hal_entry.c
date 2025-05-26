@@ -77,21 +77,23 @@ void hal_entry(void)
             }
         }
 
+        led_output();
+
         if (event == EVENT_FLOOR_BUTTON){
             // uart, switch 입력 층 led on
             // bsp_io_port_pin_t LED_pin;
-            switch (input_floor) {
-                case 1:
-                    LED_pin = BSP_IO_PORT_10_PIN_08; // PA09
-                    break;
-                case 2:
-                    LED_pin = BSP_IO_PORT_10_PIN_09; // PA09
-                    break;
-                case 3:
-                    LED_pin = BSP_IO_PORT_10_PIN_10; // PA09
-                    break;
-            }
-            R_IOPORT_PinWrite(&g_ioport_ctrl, LED_pin, BSP_IO_LEVEL_LOW);
+            // switch (input_floor) {
+            //     case 1:
+            //         LED_pin = BSP_IO_PORT_10_PIN_08; // PA09
+            //         break;
+            //     case 2:
+            //         LED_pin = BSP_IO_PORT_10_PIN_09; // PA09
+            //         break;
+            //     case 3:
+            //         LED_pin = BSP_IO_PORT_10_PIN_10; // PA09
+            //         break;
+            // }
+            // R_IOPORT_PinWrite(&g_ioport_ctrl, LED_pin, BSP_IO_LEVEL_LOW);
 
             // 엘리베이터 작동 중 층 스위치 눌렀을 때 목표 목적지(goal_floor) refresh
             if ((current_state == STATE_MOVE)&&is_closer_in_direction()) {
@@ -112,6 +114,10 @@ void hal_entry(void)
             execute_action();
             event = 0;
         }
+
+        // led_output();
+        // fnd
+
     }
 
 
