@@ -233,6 +233,11 @@ void execute_action() {
         break;
     }
     case STATE_ARRIVE:
+
+        strncpy(mov_msg, config_arrive.can_message, 7);
+        mov_msg[7] = 48 + goal_floor;
+        send_CAN(2U, mov_msg);
+
         L293_CH0_Enable_Level = BSP_IO_LEVEL_LOW;
         R_IOPORT_PinWrite(&g_ioport_ctrl, L293_CH0_Enable, L293_CH0_Enable_Level);
 
@@ -241,10 +246,14 @@ void execute_action() {
     case STATE_OPEN:
         agt_counter = 0;
 
+        send_CAN(3U, "DOR OPEN");
+
         degree = 180;
         Rotate_Servo();
         break;
     case STATE_CLOSE:
+        send_CAN(4U, "DORCLOSE");
+
         degree = 0;
         Rotate_Servo();
         break;    
