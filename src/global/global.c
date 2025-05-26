@@ -40,6 +40,8 @@ uint8_t agt_counter = 0;
 
 uint8_t i = 0;
 
+uint8_t state_changed = 0;
+
 void check_arrival();
 void refresh_goal_floor_state();
 void led_output();
@@ -92,6 +94,7 @@ bool is_closer_in_direction() {
 
 
 void handle_event() {
+    state_changed = 1;
     switch (current_state)
     {
     case STATE_IDLE:{
@@ -103,12 +106,24 @@ void handle_event() {
             case EVENT_OPEN_BUTTON:
                 current_state = STATE_OPEN;
                 break;
+            case EVENT_CLOSE_BUTTON:
+                state_changed = 0;
+                break;            
         }
         break;
     }
 
     case STATE_MOVE:
         switch (event) {
+            case EVENT_FLOOR_BUTTON:
+                state_changed = 0;
+                break;       
+            case EVENT_OPEN_BUTTON:
+                state_changed = 0;
+                break;                        
+            case EVENT_CLOSE_BUTTON:
+                state_changed = 0;
+                break;            
             case EVENT_TIMEOUT:{
                 // current_floor 갱신
                 if (current_direction == UP) {
@@ -125,9 +140,15 @@ void handle_event() {
     case STATE_ARRIVE:
         switch (event)
         {
+            case EVENT_FLOOR_BUTTON:
+                state_changed = 0;
+                break;       
             case EVENT_OPEN_BUTTON:
                 current_state = STATE_OPEN;
                 break;
+            case EVENT_CLOSE_BUTTON:
+                state_changed = 0;
+                break;     
             case EVENT_TIMEOUT:
                 current_state = STATE_OPEN;
                 break;
@@ -136,6 +157,9 @@ void handle_event() {
     case STATE_OPEN:
         switch (event)
         {
+            case EVENT_FLOOR_BUTTON:
+                state_changed = 0;
+                break;       
             case EVENT_OPEN_BUTTON:
                 current_state = STATE_OPEN;
                 break;
@@ -150,9 +174,15 @@ void handle_event() {
     case STATE_CLOSE:
         switch (event)
         {
+            case EVENT_FLOOR_BUTTON:
+                state_changed = 0;
+                break;       
             case EVENT_OPEN_BUTTON:
                 current_state = STATE_OPEN;
                 break;
+            case EVENT_CLOSE_BUTTON:
+                state_changed = 0;
+                break;   
             case EVENT_TIMEOUT:
                 refresh_goal_floor_state();
                 break;
@@ -164,6 +194,10 @@ void handle_event() {
 }
 
 void execute_action() {
+    if (!state_changed) {
+        return;
+    }
+    
     switch (current_state)
     {
     case STATE_IDLE:
