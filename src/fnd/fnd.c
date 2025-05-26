@@ -1,6 +1,7 @@
 #include "hal_data.h"
 #include "fnd.h"
 #include "../irq/irq.h"
+#include "../global/global.h"
 
 uint8_t print_data[4] = {0xC0, 0xC0, 0xC0, 0xC0};
 
@@ -25,6 +26,8 @@ uint8_t fnd4[7] = {
     0xef,
     0xdf,
 };
+
+volatile uint8_t rotate_motion = 0;
 
 void FND_initial() {
     print_data[0] = fnd1[0];
@@ -64,10 +67,14 @@ void R_FND_Display_Data(uint8_t digit, uint8_t data)
 
 }
 
-// void fnd_print_state(){ // 현재 상태 fnd 출력
-//     print_data[0] = fnd1[toggle1];
-//     print_data[1] = number[toggle2];
-//     print_data[2] = number[toggle3];
-//     print_data[3] = fnd4[toggle1];
-//     R_FND_Print_Data(print_data);
-// }
+void fnd_print_state(){ // 현재 상태 fnd 출력
+    if (current_state != STATE_MOVE) {
+        rotate_motion = 0;
+    }
+
+    print_data[0] = fnd1[rotate_motion];
+    print_data[1] = number[current_floor];
+    print_data[2] = number[goal_floor];
+    print_data[3] = fnd4[rotate_motion];
+    R_FND_Print_Data(print_data);
+}

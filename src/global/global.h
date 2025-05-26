@@ -11,9 +11,9 @@ typedef enum {
     THIRD = 3,
 } Floor;
 
-extern volatile Floor current_floor; // 현재 위치
+extern Floor current_floor; // 현재 위치
 extern volatile Floor input_floor; // uart, swtich 로 입력한 층 기록
-extern volatile Floor goal_floor; // 목적지
+extern Floor goal_floor; // 목적지
 
 extern uint8_t requested_floors[4];
 
@@ -40,8 +40,6 @@ extern const State_Config config_move;
 extern const State_Config config_arrive;
 extern const State_Config config_open;
 extern const State_Config config_close;
-
-extern const State_Config config_list[5];
 
 typedef enum {
     EVENT_NO_SIGNAL = 0,
@@ -71,7 +69,9 @@ extern volatile Interrupt_Flags f;
 extern uint8_t agt_counter;
 
 void system_on();
+bool is_closer_in_direction();
 void handle_event();
 void execute_action();
+void led_output();
 
 #endif 

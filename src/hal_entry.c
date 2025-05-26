@@ -11,10 +11,11 @@
 #include "fnd/fnd.h"
 #include "agt/agt.h"
 
+bsp_io_port_pin_t LED_pin;
 
 void hal_entry(void)
 {
-    // CAN_init();
+    CAN_init();
     DAC_init();
     IRQ_init();
     DC_initial();
@@ -33,7 +34,10 @@ void hal_entry(void)
         // ** interrupt -> event **
         if (f.switch_int) {
             f.switch_int = 0;
-            event = EVENT_FLOOR_BUTTON;
+            if (!requested_floors[input_floor]) {
+                event = EVENT_FLOOR_BUTTON;
+                requested_floors[input_floor] = 1;
+            }
         }
         else if (f.agt_int) { // 100ms 주기
             // f.agt_int+=1;
@@ -55,8 +59,8 @@ void hal_entry(void)
             uart_idx += 1;
             if (uart_idx == 5) { // 수신 완료 시
                 uart_idx = 0;
-
-                if (uart_data_arr[3] == 4 || uart_data_arr[3] == 8 || uart_data_arr[3] == 12) {
+                
+                if (uart_data_arr[3] == 4 || uart_data_arr[3] == 8 || uart_data_arr[3] == 12) { // 층 버튼 입력 시
                     input_floor = uart_data_arr[3] / 4;  // 4 → 1, 8 → 2, 12 → 3
 
                     if (!requested_floors[input_floor]) {
@@ -64,12 +68,31 @@ void hal_entry(void)
                         requested_floors[input_floor] = 1;
                     }
 
-                } else if (uart_data_arr[3] == 64) {
+                } else if (uart_data_arr[3] == 64) { // 문 열림 버튼 입력 시 
                     event = EVENT_OPEN_BUTTON;
-                } else if (uart_data_arr[3] == 32) {
+                } else if (uart_data_arr[3] == 32) { // 문 닫힘힘 버튼 입력 시 
                     event = EVENT_CLOSE_BUTTON;
                 }
 
+            }
+        }
+
+        led_output();
+        fnd_print_state();
+
+        if (event == EVENT_FLOOR_BUTTON){
+
+            // 엘리베이터 작동 중 층 스위치 눌렀을 때 목표 목적지(goal_floor) refresh
+            if ((current_state == STATE_MOVE)&&is_closer_in_direction()) {
+                goal_floor = input_floor;
+            }
+            else if (current_state == STATE_IDLE) {
+                goal_floor = input_floor;
+                if (current_floor < goal_floor) {
+                    current_direction = UP;
+                } else if (goal_floor < current_floor){
+                    current_direction = DOWN;
+                }
             }
         }
 
@@ -78,6 +101,7 @@ void hal_entry(void)
             execute_action();
             event = 0;
         }
+
     }
 
 

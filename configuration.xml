@@ -438,10 +438,10 @@
       <property id="module.driver.timer.ipl" value="board.icu.common.irq.priority12"/>
     </module>
     <module id="module.driver.timer_on_agt.1150640132">
-      <property id="module.driver.timer.name" value="fnd_timer"/>
+      <property id="module.driver.timer.name" value="gpio_timer"/>
       <property id="module.driver.timer.channel" value="1"/>
       <property id="module.driver.timer.mode" value="module.driver.timer.mode.mode_periodic"/>
-      <property id="module.driver.timer.period" value="100"/>
+      <property id="module.driver.timer.period" value="200"/>
       <property id="module.driver.timer.unit" value="module.driver.timer.unit.unit_period_msec"/>
       <property id="module.driver.timer.duty_cycle" value="50"/>
       <property id="module.driver.timer.count_source" value="module.driver.timer.count_source.clock_loco"/>
