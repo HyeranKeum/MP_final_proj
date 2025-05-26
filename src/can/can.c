@@ -5,12 +5,20 @@ char                                opcode[] = "CONTROL";
 can_frame_t                         g_can_tx_frame;
 can_frame_t                         g_can_rx_frame;
 
+uint32_t id;
+
 void CAN_init() {
-    uint32_t id = 1U;
-    uint8_t data_field[] = "Example1";
+    id = 0U;
+    uint8_t data_field[] = "CAN OKAY";
 
     R_CAN_Open(&g_can0_ctrl, &g_can0_cfg);
     CAN_Frame_Setting(id, STANDARD_CAN_FRAME, data_field);
+    R_CAN_Write(&g_can0_ctrl, 0, &g_can_tx_frame);
+}
+
+void send_CAN(uint32_t can_id, const uint8_t* can_data) {
+    id = can_id;
+    CAN_Frame_Setting(id, STANDARD_CAN_FRAME, can_data);
     R_CAN_Write(&g_can0_ctrl, 0, &g_can_tx_frame);
 }
 

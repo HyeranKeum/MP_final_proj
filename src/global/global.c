@@ -3,6 +3,7 @@
 #include "../dc/dc.h"
 #include "../servo/servo.h"
 #include "../dac/dac.h"
+#include "../can/can.h"
 
 extern unsigned char sound1[155616];
 
@@ -42,6 +43,12 @@ uint8_t i = 0;
 
 uint8_t state_changed = 0;
 
+uint8_t send_msg = 0;
+
+// uint8_t can_data[8];
+
+uint8_t mov_msg[8];
+
 void check_arrival();
 void refresh_goal_floor_state();
 
@@ -58,11 +65,18 @@ void check_arrival() {
     if (current_floor == goal_floor) {
         current_state = STATE_ARRIVE;
     } else {
+        // 두 층 이동 시 can 메세지 중복 전송 방지
+        if (current_state == STATE_MOVE) {
+            send_msg = 0;
+        } else {
+            send_msg = 1;
+        }
         current_state = STATE_MOVE;
     }
 }
 
 void refresh_goal_floor_state() {
+    send_msg = 1;
 
     for (i = current_floor; 0<i && i <4; i += 2*current_direction - 1) {
         if (requested_floors[i]) {
@@ -202,9 +216,14 @@ void execute_action() {
     switch (current_state)
     {
     case STATE_IDLE:
-        // led_output();
         break;
-    case STATE_MOVE:
+    case STATE_MOVE:{
+        if (send_msg) {
+            strncpy(mov_msg, config_move.can_message, 7);
+            mov_msg[7] = 48 + goal_floor;
+            send_CAN(0U, mov_msg);
+        }
+
         L293_CH0_Enable_Level = BSP_IO_LEVEL_HIGH;
         R_IOPORT_PinWrite(&g_ioport_ctrl, L293_CH0_Enable, L293_CH0_Enable_Level);
 
@@ -212,6 +231,7 @@ void execute_action() {
         R_IOPORT_PinWrite(&g_ioport_ctrl, L293_CH0_Direction, L293_CH0_Direction_Level);
 
         break;
+    }
     case STATE_ARRIVE:
         L293_CH0_Enable_Level = BSP_IO_LEVEL_LOW;
         R_IOPORT_PinWrite(&g_ioport_ctrl, L293_CH0_Enable, L293_CH0_Enable_Level);
