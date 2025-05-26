@@ -41,6 +41,8 @@ uint8_t agt_counter = 0;
 uint8_t i = 0;
 
 void check_arrival();
+void refresh_goal_floor_state();
+void led_output();
 
 void system_on() {
     current_floor = 1; // 현재 위치
@@ -152,7 +154,6 @@ void handle_event() {
                 current_state = STATE_OPEN;
                 break;
             case EVENT_TIMEOUT:
-                // 조건 따지기 
                 refresh_goal_floor_state();
                 break;
         }
@@ -165,6 +166,9 @@ void handle_event() {
 void execute_action() {
     switch (current_state)
     {
+    case STATE_IDLE:
+        led_output();
+        break;
     case STATE_MOVE:
         L293_CH0_Enable_Level = BSP_IO_LEVEL_HIGH;
         R_IOPORT_PinWrite(&g_ioport_ctrl, L293_CH0_Enable, L293_CH0_Enable_Level);
@@ -172,7 +176,7 @@ void execute_action() {
         L293_CH0_Direction_Level = current_direction; // UP = 1 / DOWN = 0
         R_IOPORT_PinWrite(&g_ioport_ctrl, L293_CH0_Direction, L293_CH0_Direction_Level);
 
-        break;    
+        break;
     case STATE_ARRIVE:
         requested_floors[current_floor] = 0;
 
@@ -194,4 +198,10 @@ void execute_action() {
     default:
         break;
     }
+}
+
+void led_output() {
+    R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_10_PIN_08, !requested_floors[1]); // PA08
+    R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_10_PIN_09, !requested_floors[2]); // PA09
+    R_IOPORT_PinWrite(&g_ioport_ctrl, BSP_IO_PORT_10_PIN_10, !requested_floors[3]); // PA10
 }

@@ -11,6 +11,7 @@
 #include "fnd/fnd.h"
 #include "agt/agt.h"
 
+bsp_io_port_pin_t LED_pin;
 
 void hal_entry(void)
 {
@@ -77,15 +78,30 @@ void hal_entry(void)
         }
 
         if (event == EVENT_FLOOR_BUTTON){
+            // uart, switch 입력 층 led on
+            // bsp_io_port_pin_t LED_pin;
+            switch (input_floor) {
+                case 1:
+                    LED_pin = BSP_IO_PORT_10_PIN_08; // PA09
+                    break;
+                case 2:
+                    LED_pin = BSP_IO_PORT_10_PIN_09; // PA09
+                    break;
+                case 3:
+                    LED_pin = BSP_IO_PORT_10_PIN_10; // PA09
+                    break;
+            }
+            R_IOPORT_PinWrite(&g_ioport_ctrl, LED_pin, BSP_IO_LEVEL_LOW);
+
             // 엘리베이터 작동 중 층 스위치 눌렀을 때 목표 목적지(goal_floor) refresh
-            if ((current_state == STATE_MOVE&&is_closer_in_direction())) {
+            if ((current_state == STATE_MOVE)&&is_closer_in_direction()) {
                 goal_floor = input_floor;
             }
             else if (current_state == STATE_IDLE) {
                 goal_floor = input_floor;
                 if (current_floor < goal_floor) {
                     current_direction = UP;
-                } else {
+                } else if (goal_floor < current_floor){
                     current_direction = DOWN;
                 }
             }
