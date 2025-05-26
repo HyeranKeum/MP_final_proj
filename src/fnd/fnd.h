@@ -20,6 +20,8 @@ extern uint8_t number[10];
 
 extern uint8_t fnd4[7];
 
+extern volatile uint8_t rotate_motion;
+
 extern void R_FND_Reset();
 
 extern void R_FND_Print_Data(uint8_t *string);

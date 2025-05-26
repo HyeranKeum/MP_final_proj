@@ -1,6 +1,9 @@
 #include "hal_data.h"
 #include "../global/global.h"
+#include "../fnd/fnd.h"
 #include "agt.h"
+
+volatile uint8_t cnt = 0;
 
 void AGT_init() {
     R_AGT_Open(&timer_ctrl, &timer_cfg);
@@ -21,8 +24,16 @@ void R_timer_interrupt(timer_callback_args_t *p_args) { // AGT0(100ms)
     }
 }
 
-void move_fnd_Interrupt(timer_callback_args_t *p_args) // 10ms
+void move_fnd_Interrupt(timer_callback_args_t *p_args) // 200ms
 {
     FSP_PARAMETER_NOT_USED(p_args);
     // led_output();
+    if (current_state != STATE_MOVE) {
+        return;
+    }
+
+    rotate_motion += 1;
+    if (rotate_motion == 7) {
+        rotate_motion = 1;
+    }
 }

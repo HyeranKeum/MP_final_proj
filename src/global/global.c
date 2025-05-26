@@ -47,6 +47,7 @@ void refresh_goal_floor_state();
 
 void system_on() {
     current_floor = 1; // 현재 위치
+    goal_floor = 1;
 
     current_state = 0; // IDLE
     event = 0; // NO SIGNAL

@@ -78,6 +78,7 @@ void hal_entry(void)
         }
 
         led_output();
+        fnd_print_state();
 
         if (event == EVENT_FLOOR_BUTTON){
             // uart, switch 입력 층 led on
