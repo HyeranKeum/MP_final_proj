@@ -23,14 +23,6 @@ const State_Config config_arrive = {STATE_ARRIVE, 10, "ARRITO "};
 const State_Config config_open = {STATE_OPEN, 20, "DOR OPEN"};
 const State_Config config_close = {STATE_CLOSE, 10, "DORCLOSE"};
 
-const State_Config config_list[5] = {
-    config_idle,
-    config_move,
-    config_arrive,
-    config_open,
-    config_close
-};
-
 volatile Event event = 0; // NO SIGNAL
 
 volatile Direction current_direction = UP;
@@ -44,8 +36,6 @@ uint8_t i = 0;
 uint8_t state_changed = 0;
 
 uint8_t send_msg = 0;
-
-// uint8_t can_data[8];
 
 uint8_t mov_msg[8];
 

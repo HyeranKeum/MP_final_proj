@@ -41,8 +41,6 @@ extern const State_Config config_arrive;
 extern const State_Config config_open;
 extern const State_Config config_close;
 
-extern const State_Config config_list[5];
-
 typedef enum {
     EVENT_NO_SIGNAL = 0,
     EVENT_FLOOR_BUTTON = 1,
